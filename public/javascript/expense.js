@@ -3,6 +3,8 @@ let token=localStorage.getItem("token")
 const form1 = document.getElementById("form");
 const tBody = document.getElementById("tbody");
 const pageDropValue = document.getElementById("pageDropValue");
+const userName= document.getElementById("name");
+const Name= document.createElement("p")
 
 
 
@@ -56,8 +58,11 @@ function loadExpenseList(page) {
 
   axios.get(`http://localhost:3000/get-expense/?page=${page}&limit=${localStorage.getItem("limit")}`, { headers: { 'Authorization': token } })
       .then(res => {
-          const { data, totalCount, totalPages } = res.data;
-          console.log(res.data);
+          const { data, totalCount, totalPages, name } = res.data;
+          
+          Name.innerHTML="";
+          Name.innerHTML=name
+          userName.appendChild(Name)
           tBody.innerHTML = '';
 
           data.forEach((element) => {

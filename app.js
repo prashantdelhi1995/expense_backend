@@ -11,6 +11,8 @@ const Premium=require("./routes/purchaseMemberShip")
 const Leaderboard=require("./routes/leadorboard")
 const resetPassword=require("./modal/resetPasswordModel.js")
 const Uploads = require("./modal/fileuploadModel.js")
+const path = require("path");
+
 
 
 const forgetPassword =require("./routes/forgetpassword")
@@ -31,7 +33,8 @@ app.use("/purchase",Premium)
 app.use(Leaderboard);
 app.use("/password",forgetPassword)
 app.use((req,res,next)=>{
-    res.sendFile(path.join(__dirname,`/public/html/${req.url}`))
+  console.log(req.url)
+    res.sendFile(path.join(__dirname,`/public/${req.url}`))
 });
 
 SignUp.hasMany(Expense);
@@ -53,7 +56,7 @@ const PORT=3000||process.env.PORT;
     try {
       await sequelize.sync();
       app.listen(PORT , () => {
-       // console.log('Server is running on port ');
+        console.log('Server is running on port ',PORT);
       });
     } catch (error) {
       console.error('Unable to connect to the database:', error);
