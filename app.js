@@ -12,11 +12,13 @@ const Leaderboard=require("./routes/leadorboard")
 const resetPassword=require("./modal/resetPasswordModel.js")
 const Uploads = require("./modal/fileuploadModel.js")
 
+
 const forgetPassword =require("./routes/forgetpassword")
 
 
 
 const app= express();
+require("dotenv").config()
 const cors=require("cors");
 const Signup = require("./modal/signup");
 app.use(cors())
@@ -29,7 +31,7 @@ app.use("/purchase",Premium)
 app.use(Leaderboard);
 app.use("/password",forgetPassword)
 app.use((req,res,next)=>{
-    res.send("<h2>wrong page...</h2>")
+    res.sendFile(path.join(__dirname,`/public/html/${req.url}`))
 });
 
 SignUp.hasMany(Expense);
@@ -43,12 +45,15 @@ Order.belongsTo(SignUp);
 
 SignUp.hasMany(Uploads);
 Uploads.belongsTo(SignUp);
+const PORT=3000||process.env.PORT;
+
+
 
 (async () => {
     try {
       await sequelize.sync();
-      app.listen(3000, () => {
-        console.log('Server is running on port 3000');
+      app.listen(PORT , () => {
+       // console.log('Server is running on port ');
       });
     } catch (error) {
       console.error('Unable to connect to the database:', error);
